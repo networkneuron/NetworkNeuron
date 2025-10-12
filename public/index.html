@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetworkNeuron - Node Management Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 8px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px 20px;
+            border-radius: 10px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .status-item .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .status-item .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.online {
+            background: #48bb78;
+            box-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
+        }
+
+        .status-indicator.offline {
+            background: #f56565;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 6px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .peer-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .peer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .peer-item:last-child {
+            border-bottom: none;
+        }
+
+        .peer-id {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .peer-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .peer-status.connected {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .peer-status.disconnected {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .session-item {
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .session-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-id {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .session-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #f56565, #e53e3e);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        .metric .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .metric .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <div class="logo">NN</div>
+                NetworkNeuron Dashboard
+            </h1>
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="label">Node Status</div>
+                    <div class="value">
+                        <span class="status-indicator" id="nodeStatus"></span>
+                        <span id="nodeStatusText">Unknown</span>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <div class="label">Connected Peers</div>
+                    <div class="value" id="peerCount">0</div>
+                </div>
+                <div class="status-item">
+                    <div class="label">Active Sessions</div>
+                    <div class="value" id="sessionCount">0</div>
+                </div>
+                <div class="status-item">
+                    <div class="label">Network Health</div>
+                    <div class="value" id="networkHealth">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>
+                    <div class="card-icon">⚡</div>
+                    Node Control
+                </h3>
+                <div id="nodeControl">
+                    <button class="btn btn-success" id="startBtn" onclick="startNode()">Start Node</button>
+                    <button class="btn btn-danger" id="stopBtn" onclick="stopNode()" disabled>Stop Node</button>
+                    <button class="btn" id="restartBtn" onclick="restartNode()" disabled>Restart Node</button>
+                </div>
+                <div class="metrics" style="margin-top: 20px;">
+                    <div class="metric">
+                        <div class="value" id="uptime">0s</div>
+                        <div class="label">Uptime</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" id="bandwidth">0 MB/s</div>
+                        <div class="label">Bandwidth</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <div class="card-icon">🌐</div>
+                    Network Peers
+                </h3>
+                <div id="peersList" class="peer-list">
+                    <div class="loading">Loading peers...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <div class="card-icon">🔗</div>
+                    Active Sessions
+                </h3>
+                <div id="sessionsList">
+                    <div class="loading">Loading sessions...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <div class="card-icon">📊</div>
+                    Network Statistics
+                </h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="value" id="totalNodes">0</div>
+                        <div class="label">Total Nodes</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" id="totalBandwidth">0</div>
+                        <div class="label">Total Bandwidth</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" id="avgLatency">0ms</div>
+                        <div class="label">Avg Latency</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" id="totalStake">0</div>
+                        <div class="label">Total Stake</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <div class="card-icon">💰</div>
+                    Rewards & Incentives
+                </h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="value" id="myStake">0</div>
+                        <div class="label">My Stake</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" id="myRewards">0</div>
+                        <div class="label">My Rewards</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn" onclick="claimRewards()">Claim Rewards</button>
+                    <button class="btn" onclick="stakeTokens()">Stake Tokens</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <div class="card-icon">⚙️</div>
+                    Configuration
+                </h3>
+                <div id="configForm">
+                    <div style="margin-bottom: 15px;">
+                        <label>Node Name:</label>
+                        <input type="text" id="nodeName" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label>Region:</label>
+                        <select id="nodeRegion" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px;">
+                            <option value="auto">Auto</option>
+                            <option value="us-east">US East</option>
+                            <option value="us-west">US West</option>
+                            <option value="eu-central">EU Central</option>
+                            <option value="asia-pacific">Asia Pacific</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="updateConfig()">Update Config</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let nodeStatus = 'stopped';
+        let updateInterval;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            startAutoUpdate();
+        });
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                
+                updateNodeStatus(data.status);
+                updateStats(data.stats);
+                
+                // Load additional data
+                await loadPeers();
+                await loadSessions();
+                
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+                showError('Failed to load dashboard data');
+            }
+        }
+
+        // Update node status
+        function updateNodeStatus(status) {
+            nodeStatus = status;
+            const statusIndicator = document.getElementById('nodeStatus');
+            const statusText = document.getElementById('nodeStatusText');
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const restartBtn = document.getElementById('restartBtn');
+
+            if (status === 'running') {
+                statusIndicator.className = 'status-indicator online';
+                statusText.textContent = 'Online';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                restartBtn.disabled = false;
+            } else {
+                statusIndicator.className = 'status-indicator offline';
+                statusText.textContent = 'Offline';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                restartBtn.disabled = true;
+            }
+        }
+
+        // Update statistics
+        function updateStats(stats) {
+            document.getElementById('peerCount').textContent = stats.activeNodes || 0;
+            document.getElementById('sessionCount').textContent = stats.activeNodes || 0;
+            document.getElementById('networkHealth').textContent = Math.round(stats.networkHealth || 0) + '%';
+            document.getElementById('totalNodes').textContent = stats.totalNodes || 0;
+            document.getElementById('totalBandwidth').textContent = (stats.totalBandwidth || 0) + ' Mbps';
+            document.getElementById('avgLatency').textContent = Math.round(stats.averageLatency || 0) + 'ms';
+            document.getElementById('totalStake').textContent = (stats.totalStake || 0).toLocaleString();
+        }
+
+        // Load peers
+        async function loadPeers() {
+            try {
+                const response = await fetch('/api/peers');
+                const data = await response.json();
+                
+                const peersList = document.getElementById('peersList');
+                peersList.innerHTML = '';
+                
+                if (data.connected && data.connected.length > 0) {
+                    data.connected.forEach(peer => {
+                        const peerItem = document.createElement('div');
+                        peerItem.className = 'peer-item';
+                        peerItem.innerHTML = `
+                            <span class="peer-id">${peer.peerId.toString().substring(0, 20)}...</span>
+                            <span class="peer-status connected">Connected</span>
+                        `;
+                        peersList.appendChild(peerItem);
+                    });
+                } else {
+                    peersList.innerHTML = '<div class="loading">No connected peers</div>';
+                }
+                
+            } catch (error) {
+                console.error('Failed to load peers:', error);
+            }
+        }
+
+        // Load sessions
+        async function loadSessions() {
+            try {
+                const response = await fetch('/api/sessions');
+                const data = await response.json();
+                
+                const sessionsList = document.getElementById('sessionsList');
+                sessionsList.innerHTML = '';
+                
+                if (data.active && data.active.length > 0) {
+                    data.active.forEach(session => {
+                        const sessionItem = document.createElement('div');
+                        sessionItem.className = 'session-item';
+                        sessionItem.innerHTML = `
+                            <div class="session-id">${session.id}</div>
+                            <div class="session-stats">
+                                <span>Client: ${session.clientId}</span>
+                                <span>Bytes: ${session.bytesTransferred}</span>
+                                <span>Duration: ${Math.round((Date.now() - new Date(session.startTime)) / 1000)}s</span>
+                            </div>
+                        `;
+                        sessionsList.appendChild(sessionItem);
+                    });
+                } else {
+                    sessionsList.innerHTML = '<div class="loading">No active sessions</div>';
+                }
+                
+            } catch (error) {
+                console.error('Failed to load sessions:', error);
+            }
+        }
+
+        // Node control functions
+        async function startNode() {
+            try {
+                const response = await fetch('/api/start', { method: 'POST' });
+                if (response.ok) {
+                    showSuccess('Node started successfully');
+                    setTimeout(loadDashboard, 1000);
+                } else {
+                    throw new Error('Failed to start node');
+                }
+            } catch (error) {
+                showError('Failed to start node: ' + error.message);
+            }
+        }
+
+        async function stopNode() {
+            try {
+                const response = await fetch('/api/stop', { method: 'POST' });
+                if (response.ok) {
+                    showSuccess('Node stopped successfully');
+                    setTimeout(loadDashboard, 1000);
+                } else {
+                    throw new Error('Failed to stop node');
+                }
+            } catch (error) {
+                showError('Failed to stop node: ' + error.message);
+            }
+        }
+
+        async function restartNode() {
+            try {
+                const response = await fetch('/api/restart', { method: 'POST' });
+                if (response.ok) {
+                    showSuccess('Node restarted successfully');
+                    setTimeout(loadDashboard, 2000);
+                } else {
+                    throw new Error('Failed to restart node');
+                }
+            } catch (error) {
+                showError('Failed to restart node: ' + error.message);
+            }
+        }
+
+        // Configuration functions
+        async function updateConfig() {
+            try {
+                const config = {
+                    nodeName: document.getElementById('nodeName').value,
+                    region: document.getElementById('nodeRegion').value
+                };
+                
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                if (response.ok) {
+                    showSuccess('Configuration updated successfully');
+                } else {
+                    throw new Error('Failed to update configuration');
+                }
+            } catch (error) {
+                showError('Failed to update configuration: ' + error.message);
+            }
+        }
+
+        // Reward functions
+        async function claimRewards() {
+            try {
+                const response = await fetch('/api/claim-rewards', { method: 'POST' });
+                if (response.ok) {
+                    showSuccess('Rewards claimed successfully');
+                } else {
+                    throw new Error('Failed to claim rewards');
+                }
+            } catch (error) {
+                showError('Failed to claim rewards: ' + error.message);
+            }
+        }
+
+        async function stakeTokens() {
+            const amount = prompt('Enter amount to stake:');
+            if (amount && !isNaN(amount)) {
+                try {
+                    const response = await fetch('/api/stake', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ amount: parseInt(amount) })
+                    });
+                    
+                    if (response.ok) {
+                        showSuccess('Tokens staked successfully');
+                    } else {
+                        throw new Error('Failed to stake tokens');
+                    }
+                } catch (error) {
+                    showError('Failed to stake tokens: ' + error.message);
+                }
+            }
+        }
+
+        // Utility functions
+        function showSuccess(message) {
+            showMessage(message, 'success');
+        }
+
+        function showError(message) {
+            showMessage(message, 'error');
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'error' : 'success';
+            messageDiv.textContent = message;
+            
+            document.body.insertBefore(messageDiv, document.body.firstChild);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        // Auto-update dashboard
+        function startAutoUpdate() {
+            updateInterval = setInterval(loadDashboard, 30000); // Update every 30 seconds
+        }
+
+        function stopAutoUpdate() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', stopAutoUpdate);
+    </script>
+</body>
+</html>

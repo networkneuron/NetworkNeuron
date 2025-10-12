@@ -1,0 +1,68 @@
+{
+  "name": "networkneuron-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^5.1.6",
+    "web-vitals": "^3.3.2",
+    "@mui/material": "^5.14.5",
+    "@mui/icons-material": "^5.14.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/x-charts": "^6.0.0",
+    "@mui/x-data-grid": "^6.10.1",
+    "recharts": "^2.7.2",
+    "socket.io-client": "^4.7.2",
+    "axios": "^1.5.0",
+    "react-router-dom": "^6.15.0",
+    "react-query": "^3.39.3",
+    "zustand": "^4.4.1",
+    "framer-motion": "^10.16.4",
+    "react-hot-toast": "^2.4.1",
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
+    "@types/lodash": "^4.14.195"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "proxy": "http://localhost:5000"
+}

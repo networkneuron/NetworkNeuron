@@ -1,0 +1,35 @@
+{
+  "name": "networkneuron",
+  "version": "0.1.0",
+  "description": "Decentralized VPN (dVPN) protocol",
+  "main": "dist/node/index.js",
+  "scripts": {
+    "start": "ts-node src/node/index.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/node/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Linting...\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/networkneuron/networkneuron.git"
+  },
+  "keywords": [
+    "dvpn",
+    "decentralized",
+    "vpn",
+    "privacy",
+    "censorship-resistance"
+  ],
+  "author": "NetworkNeuron Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/networkneuron/networkneuron/issues"
+  },
+  "homepage": "https://github.com/networkneuron/networkneuron#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

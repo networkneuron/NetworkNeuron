@@ -33,67 +33,7 @@ NetworkNeuron is a decentralized VPN (dVPN) protocol designed to provide secure,
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## Quick Start
 
-### Prerequisites
-
-- Node.js 18.0.0 or higher
-- npm or yarn package manager
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/networkneuron/networkneuron.git
-cd networkneuron
-
-# Install dependencies
-npm install
-
-# Start a node
-npm start
-
-# Or run in development mode
-npm run dev
-```
-
-### Running a Node
-
-1. **Install NetworkNeuron**:
-   ```bash
-   npm install -g networkneuron
-   ```
-
-2. **Initialize your node**:
-   ```bash
-   networkneuron init
-   ```
-
-3. **Start your node**:
-   ```bash
-   networkneuron start
-   ```
-
-4. **Check node status**:
-   ```bash
-   networkneuron status
-   ```
-
-### Using as a Client
-
-1. **Install the client**:
-   ```bash
-   npm install -g networkneuron-client
-   ```
-
-2. **Connect to the network**:
-   ```bash
-   networkneuron-client connect
-   ```
-
-## Development
-
-### Project Structure
 
 ```
 networkneuron/
@@ -110,36 +50,4 @@ networkneuron/
 └── examples/           # Example implementations
 ```
 
-### Building from Source
 
-```bash
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-
-# Run tests
-npm test
-
-# Lint code
-npm run lint
-```
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Security
-
-If you discover a security vulnerability, please report it to security@networkneuron.org.
-
-## Support
-
-- Documentation: [docs.networkneuron.org](https://docs.networkneuron.org)
-- Community: [Discord](https://discord.gg/networkneuron)
-- Issues: [GitHub Issues](https://github.com/networkneuron/networkneuron/issues)

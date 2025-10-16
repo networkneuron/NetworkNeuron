@@ -35,19 +35,3 @@ NetworkNeuron is a decentralized VPN (dVPN) protocol designed to provide secure,
 
 
 
-```
-networkneuron/
-├── src/
-│   ├── core/           # Core protocol implementation
-│   ├── node/           # Node operator tools
-│   ├── client/         # Client application
-│   ├── crypto/         # Cryptographic functions
-│   ├── network/        # P2P networking
-│   ├── routing/        # Traffic routing
-│   └── incentives/     # Token economics
-├── tests/              # Test suites
-├── docs/               # Documentation
-└── examples/           # Example implementations
-```
-
-

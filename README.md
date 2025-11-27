@@ -7,7 +7,7 @@ NetworkNeuron is a decentralized VPN (dVPN) protocol designed to provide secure,
 - **Decentralized Architecture**: No central authority controls the network
 - **Community-Powered**: Nodes operated by community members worldwide
 - **Censorship Resistance**: Bypass internet restrictions and surveillance
-- **Privacy-First**: End-to-end encryption with no data logging
+- **Privacy-First**: End,to-end encryption with no data logging
 - **Incentive System**: Node operators earn rewards for providing bandwidth
 - **Cross-Platform**: Works on desktop, mobile, and embedded devices
 

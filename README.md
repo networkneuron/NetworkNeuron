@@ -1,6 +1,6 @@
-# NetworkNeuron — Creator-Owned Video on Shelby + Aptos
+# NetworkNeuron  Creator-Owned Video on Shelby + Aptos
 
-> A decentralized streaming platform where creators keep ownership, control monetization, and deliver high-performance video using Shelby Protocol.
+> A decentralized streaming platform where creators keep ownership, control monetization and deliver high-performance video using Shelby Protocol.
 
 NetworkNeuron is a censorship-resistant, creator-first video platform inspired by Vimeo, built on:
 
@@ -11,14 +11,14 @@ NetworkNeuron is a censorship-resistant, creator-first video platform inspired b
 
 ## Why This Stack
 
-Video streaming, AI, and analytics workloads need:
+Video streaming, AI and analytics workloads need:
 
 - Robust storage durability.
 - High read throughput.
 - Predictable latency.
 - Transparent economics.
 
-Shelby is purpose-built for demanding read-heavy workloads and aligns with NetworkNeuron’s requirements:
+Shelby is purpose-built for demanding read heavy workloads and aligns with NetworkNeuron’s requirements:
 
 1. **Paid reads and user-focused incentives**
    - Read payments incentivize providers to deliver quality service.

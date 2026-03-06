@@ -1,199 +1,300 @@
-# NetworkNeuron — The Open Video Network
+# NetworkNeuron — Creator-Owned Video on Shelby + Aptos
 
-> A decentralized streaming protocol + app where creators own their audience, content, and revenue.
+> A decentralized streaming platform where creators keep ownership, control monetization, and deliver high-performance video using Shelby Protocol.
 
-NetworkNeuron is a censorship-resistant, creator-first platform inspired by Vimeo, rebuilt with decentralized video storage through **Shelby Protocol** and on-chain monetization on the **Aptos blockchain**.
+NetworkNeuron is a censorship-resistant, creator-first video platform inspired by Vimeo, built on:
+
+- **Shelby Protocol** for high-performance decentralized blob storage.
+- **Aptos** for coordination, settlement, payment logic, and correctness-critical state.
 
 ---
 
-## Why NetworkNeuron Exists
+## Why This Stack
 
-Today, creators face:
+Video streaming, AI, and analytics workloads need:
 
-- Sudden demonetization and opaque payout rules.
-- Platform lock-in and algorithm dependence.
-- High platform fees and weak ownership portability.
+- Robust storage durability.
+- High read throughput.
+- Predictable latency.
+- Transparent economics.
 
-NetworkNeuron flips that model:
+Shelby is purpose-built for demanding read-heavy workloads and aligns with NetworkNeuron’s requirements:
 
-- **Content ownership**: creators keep wallet-native ownership records.
-- **Transparent payouts**: monetization logic is auditable on-chain.
-- **Portable identity and catalog**: open metadata and indexers.
-- **Censorship resistance**: durable decentralized media storage and verifiable references.
+1. **Paid reads and user-focused incentives**
+   - Read payments incentivize providers to deliver quality service.
+2. **Aptos coordination + settlement layer**
+   - Smart contracts manage state, payments, and correctness-critical workflows.
+3. **Dedicated private bandwidth**
+   - Shelby RPC and storage providers communicate over private fiber for consistent performance.
+4. **Novel auditing system**
+   - Supports integrity guarantees and rewards honest participation.
+5. **Efficient erasure coding**
+   - Strong durability with better recovery bandwidth economics.
+6. **Built by experienced teams**
+   - High-performance systems background from Jump Trading Group + Aptos teams.
 
 ---
 
 ## Product North Star
 
-Build a video ecosystem where creators can:
+Build an open video ecosystem where creators can:
 
-1. Publish high-quality video with decentralized storage guarantees via Shelby Protocol.
-2. Monetize with subscriptions, pay-per-view, direct tips, and token-gating.
-3. Configure programmable revenue splits for teams/collaborators.
-4. Build direct audience relationships without centralized gatekeepers.
+1. Upload and stream high-quality video with decentralized persistence.
+2. Own content and rights via on-chain records.
+3. Monetize with subscriptions, tips, pay-per-view, and split payouts.
+4. Reach audiences without centralized platform lock-in.
 
 ---
 
-## 🗺️ Working Map (System + Execution)
-
-## 1) System Map (How the platform works end-to-end)
+## 🗺️ Working System Map
 
 ```mermaid
 flowchart LR
-    Viewer[Viewer App] -->|Watch / Pay| FE[Web or Mobile Frontend]
-    Creator[Creator App] -->|Upload / Manage| FE
+    User[Viewer / Creator Client SDK] -->|Public Internet| RPC[Shelby RPC Server]
+    User -.->|Wallet + Tx| Aptos[Aptos L1]
 
-    FE -->|Aptos wallet auth + tx signing| Wallet[Aptos Wallet]
-    FE -->|Upload source video| Upload[Upload Service]
-    Upload --> Transcode[Transcoding Workers]
-    Transcode --> Shelby[(Shelby Protocol Storage)]
-    Transcode --> Manifest[(HLS or DASH Manifests)]
+    RPC -.->|State / settlement| Aptos
+    SP1[Storage Provider 1] -.-> Aptos
+    SP2[Storage Provider 2] -.-> Aptos
+    SPN[Storage Provider N] -.-> Aptos
 
-    FE -->|Register video + terms| Aptos[(Aptos Smart Contracts)]
-    Aptos --> CreatorRegistry[CreatorRegistry]
-    Aptos --> VideoRegistry[VideoRegistry]
-    Aptos --> Monetization[MonetizationManager]
-    Aptos --> Splitter[RevenueSplitter]
+    RPC -->|Private fiber network| PN[Private Network]
+    PN --> SP1
+    PN --> SP2
+    PN --> SPN
 
-    Indexer[Indexer / Analytics Worker] -->|Reads on-chain events + Shelby metadata| Aptos
-    Indexer --> API[Discovery + Search API]
-    FE --> API
-
-    FE --> Edge[Edge cache / gateway layer]
-    Edge --> Shelby
-    FE --> Manifest
+    App[NetworkNeuron App/API] -->|Session/auth/playback| User
+    App -->|Index/query| IDX[Indexer]
+    IDX --> Aptos
 ```
 
-## 2) Build Map (What to build first)
+### Key Shelby Components
 
-| Phase | Goal | Deliverables | Exit Criteria |
-|---|---|---|---|
-| **P0: Aptos + Shelby Foundation** | Prove creator ownership and decentralized storage | Aptos wallet auth, upload pipeline, Shelby video persistence, on-chain registration | Creator uploads and plays video with Aptos ownership record + Shelby storage proof |
-| **P1: Monetization** | Enable creator revenue | Tips, subscription logic, payout split contract + receipts | Creator receives auditable Aptos payouts |
-| **P2: Scale UX** | Improve performance and discoverability | Adaptive bitrate streaming, search, channels, playlists, caching strategy | Stream startup and buffering KPIs meet target SLO |
-| **P3: Ecosystem Governance** | Expand trust minimization | Governance parameters, community moderation lists, open discovery modules | Core policy updates can be community-governed |
-
-## 3) Creator-to-Cash Flow Map
-
-1. Creator uploads a source file from the app.
-2. Transcoder outputs multiple renditions + playback manifest.
-3. Renditions/manifests are persisted through Shelby Protocol.
-4. `VideoRegistry` records ownership + storage references + licensing.
-5. Viewer pays via tip/subscription/PPV transaction on Aptos.
-6. `MonetizationManager` routes funds via `RevenueSplitter`.
-7. Dashboard displays indexed events for near real-time, auditable earnings.
+1. **Aptos Smart Contract**
+   - Tracks system state and correctness-critical operations (including auditing-related flows).
+2. **Storage Provider (SP) Servers**
+   - Store chunk data and serve reads.
+3. **Shelby RPC Servers**
+   - Entry point for client SDK reads/writes; bridge public internet to private data path.
+4. **Private Network**
+   - High-performance connectivity between RPC servers and storage providers.
 
 ---
 
-## Architecture Blueprint (Shelby + Aptos)
+## Accounts, Namespaces, and Blob Naming
+
+Shelby organizes blobs in **user-specific namespaces**:
+
+- Namespace is derived from the user’s Aptos account hex address.
+- Blob names are user-defined and must be unique within the namespace.
+- Blob names may be up to 1024 characters and must not end with `/`.
+
+Example fully-qualified blob:
+
+```text
+0x123.../videos/channel-a/episode-01.mp4
+```
+
+There are no true directories—only blob names. This means both of the following can exist simultaneously:
+
+- `<account>/foo`
+- `<account>/foo/bar`
+
+For predictable recursive tooling behavior, use canonical path-like naming conventions.
+
+---
+
+## Data Model: Chunking + Erasure Coding
+
+Shelby stores data using erasure-coded chunksets:
+
+- Blobs are split into fixed-size **chunksets**.
+- Each chunkset is encoded into **16 chunks total**:
+  - 10 data chunks
+  - 6 parity chunks
+- Current conceptual sizing:
+  - 10 MB user-data chunkset
+  - 1 MB per chunk
+
+```mermaid
+flowchart LR
+    Blob[User Blob] --> CS0[Chunkset 0]
+    Blob --> CS1[Chunkset 1]
+    Blob --> CSN[Chunkset N]
+
+    CS0 -->|Erasure code| C0[Chunk 0]
+    CS0 --> C1[Chunk 1]
+    CS0 --> C15[Chunk 15]
+```
+
+Recovery properties:
+
+- Any 10 of 16 chunks can reconstruct data.
+- Clay-code-based repair can reduce recovery traffic versus standard Reed-Solomon approaches.
+
+---
+
+## Placement Groups (PGs)
+
+Shelby assigns each blob to a placement group to keep metadata efficient and improve operational scalability:
+
+- Each PG has **16 slots**, matching the 16-chunk coding layout.
+- All chunks for a blob are mapped to the same PG’s SP set.
+- This avoids storing per-chunk location metadata on-chain.
+
+```mermaid
+flowchart LR
+    BlobA[Blob A] -->|Random assignment| PG1[Placement Group 1]
+    BlobB[Blob B] -->|Random assignment| PG2[Placement Group 2]
+
+    PG1 --> S0[SP Slot 0]
+    PG1 --> S1[SP Slot 1]
+    PG1 --> S15[SP Slot 15]
+```
+
+---
+
+## Read Procedure (Shelby-Aligned)
+
+1. Client SDK selects an available Shelby RPC server.
+2. Client establishes payment/session context.
+3. Client requests blob or byte range with payment authorization.
+4. RPC optionally serves from cache.
+5. RPC consults Aptos contract state for placement/provider mapping.
+6. RPC fetches required chunks from SPs over private network and pays via read payment mechanism.
+7. RPC validates chunks, reassembles response bytes, returns data.
+8. Session remains reusable for additional reads with incremental payments.
+
+```mermaid
+sequenceDiagram
+    participant U as User/SDK
+    participant R as Shelby RPC
+    participant C as Aptos Contract
+    participant S as Storage Providers
+
+    U->>R: Open read session + payment context
+    U->>R: Request blob/range
+    R->>C: Lookup placement/providers
+    C-->>R: Provider mapping
+    R->>S: Fetch chunks over private network
+    S-->>R: Chunks
+    R-->>U: Validated/reassembled bytes
+```
+
+---
+
+## Write Procedure (Shelby-Aligned)
+
+1. Client selects Shelby RPC server.
+2. SDK computes erasure-coding/chunk commitments locally.
+3. SDK submits Aptos transaction with blob metadata + commitment root; storage payment handled on-chain.
+4. SDK sends source data to RPC.
+5. RPC recomputes/validates coded representation against on-chain metadata.
+6. RPC distributes chunks to assigned SPs by placement group.
+7. SPs validate chunks and return signed acknowledgments.
+8. RPC aggregates acknowledgments and submits confirmation transaction.
+9. Contract marks blob as written/durable.
+
+```mermaid
+sequenceDiagram
+    participant U as User/SDK
+    participant R as Shelby RPC
+    participant A as Aptos
+    participant S as Storage Providers
+
+    U->>A: Submit blob metadata + commitments
+    A-->>U: Tx confirmed
+    U->>R: Send source blob
+    R->>A: Validate metadata consistency
+    R->>S: Send coded chunks
+    S-->>R: Signed acknowledgments
+    R->>A: Submit aggregate confirmation
+    A-->>R: Blob state = written
+```
+
+---
+
+## NetworkNeuron Application Architecture
 
 ### Client Layer
 
-- Web/mobile apps for upload, discovery, playback, and creator analytics.
-- Aptos-compatible wallet authentication and transaction signing.
-- Optional gas and onboarding abstractions for non-crypto-native users.
-
-### Media Layer (Shelby Protocol + Processing)
-
-- Source uploads are transcoded into adaptive renditions (1080p/720p/480p).
-- HLS/DASH manifests are generated for resilient playback.
-- Canonical content references map to Shelby-stored media objects.
-- Redundancy and retrieval strategy built around Shelby persistence guarantees.
+- Web/mobile clients for upload, playback, discovery, and creator dashboard.
+- Aptos wallet auth and transaction signing.
+- SDK-driven reads/writes through Shelby RPC endpoints.
 
 ### Contract Layer (Aptos)
 
-- **CreatorRegistry**: wallet → creator/channel metadata.
-- **VideoRegistry**: ownership, storage reference, publish status, licensing/provenance.
-- **MonetizationManager**: subscriptions, PPV, tips, access checks.
-- **RevenueSplitter**: programmable payouts for collaborators.
-- **Governance (optional)**: protocol fee parameters and module approvals.
+- **CreatorRegistry**: creator/channel identity metadata.
+- **VideoRegistry**: ownership, rights, Shelby blob references, publish state.
+- **MonetizationManager**: subscriptions, PPV, tips, entitlement checks.
+- **RevenueSplitter**: programmable payouts for collaborators/partners.
 
-### Data & Discovery Layer
+### Index & Discovery Layer
 
-- Indexer consumes Aptos events and Shelby-related metadata pointers.
-- Query API powers feeds, creator pages, search, and analytics.
-- Open indexing model supports alternative indexers and anti-centralization.
+- Indexer reads Aptos events and app metadata.
+- Search/discovery APIs power feeds, channel pages, and analytics.
 
-### Performance Layer
+### Delivery Layer
 
-- Edge cache and gateway routing for low-latency video delivery.
-- Multi-path retrieval strategy to improve playback reliability.
+- Shelby RPC path for durable source-of-truth retrieval.
+- Optional cache/gateway layer for startup latency improvements.
 
 ---
 
-## Monetization Modes
+## Monetization
 
-- **Subscriptions**: recurring fan support for premium catalogs.
-- **Pay-per-view**: one-time unlock for premium content.
-- **Direct Tips**: instant viewer-to-creator value transfer.
-- **Token-Gated Access**: token ownership unlocks private videos.
-- **Collaborator Splits**: automatic payout sharing across contributors.
+- **Subscriptions**
+- **Pay-per-view**
+- **Direct tips**
+- **Token-gated access**
+- **Revenue splits**
 
----
-
-## Trust, Safety, and Moderation (Layered Model)
-
-NetworkNeuron is censorship-resistant, not moderation-free.
-
-- **Protocol layer**: neutral ownership and payment records.
-- **Application layer**: policy controls, region handling, and safety defaults.
-- **Community layer**: moderation lists and transparent reputation signals.
-- **User layer**: personal filter controls and subscribed policy lists.
+Design principle: creator earnings should be transparent, auditable, and programmable.
 
 ---
 
 ## MVP Scope
 
-### In Scope (MVP)
+### In Scope
 
-- Aptos wallet sign-in and creator profile setup.
-- Video upload + Shelby persistence + on-chain registration.
-- Playback through gateway/edge path with adaptive manifests.
-- Creator catalog page.
-- Direct tipping with on-chain receipt.
+- Aptos wallet login and creator profile.
+- Video upload pipeline with Shelby persistence.
+- On-chain `VideoRegistry` records pointing to Shelby blobs.
+- Playback path via Shelby RPC.
+- Tip transactions and receipt visibility.
 
 ### Out of Scope (MVP)
 
-- Full DAO governance.
-- Advanced recommendation engine.
-- Multi-chain bridging.
+- Full governance DAO.
+- Advanced recommendation ML ranking.
+- Multi-chain interoperability.
 
 ---
 
-## Success Metrics (First 6 Months)
+## Success Metrics
 
-- **Creator activation**: % of creators who publish at least one video.
-- **Revenue flow**: Aptos payout volume and creator take rate.
-- **Playback quality**: startup time, buffering ratio, completion rate.
-- **Storage reliability**: % of videos meeting Shelby persistence/retrieval SLO.
-- **Ownership integrity**: % of videos with complete on-chain ownership metadata.
-
----
-
-## Risks and Mitigations
-
-- **Storage/transcoding cost pressure**
-  - Mitigate with tiered retention, encoding optimization, and quota policy.
-- **Wallet UX friction**
-  - Mitigate with guided onboarding, session keys, and simplified payment UX.
-- **Indexer centralization risk**
-  - Mitigate with open schemas and independently operable indexers.
-- **Regulatory variability**
-  - Mitigate through modular compliance controls at app layer.
+- Creator activation rate.
+- On-chain payout volume and creator take-rate.
+- Stream startup time and buffering ratio.
+- Shelby retrieval success/SLO adherence.
+- % of videos with complete ownership + rights metadata.
 
 ---
 
-## Suggested Implementation Sequence (Next 30 Days)
+## 30-Day Implementation Map
 
-1. Define Aptos contract interfaces and Shelby reference schema.
-2. Deploy `CreatorRegistry` and `VideoRegistry` on Aptos testnet.
-3. Build upload + transcode + Shelby persistence pipeline.
-4. Register storage references on-chain and verify playback resolution flow.
-5. Implement direct tipping and payout split events.
-6. Ship creator dashboard v0 with earnings and storage status timeline.
+1. Finalize Aptos Move contract interfaces and event schema.
+2. Define Shelby blob naming convention and metadata mapping format.
+3. Implement upload → write-confirmation flow (including on-chain state transitions).
+4. Implement playback read-session flow with usage metering.
+5. Ship creator dashboard with earnings + storage/read health telemetry.
+6. Run load tests on read-heavy playback scenarios.
 
 ---
 
 ## Long-Term Vision
 
-NetworkNeuron evolves from a single app into an open creator-owned video protocol where multiple clients can compete on UX while sharing common Aptos ownership, monetization rails, and Shelby-backed media infrastructure.
+NetworkNeuron becomes an open creator-owned media protocol where multiple apps can compete on UX while sharing a common trust layer:
+
+- Shelby for scalable, performant decentralized storage.
+- Aptos for settlement, incentives, and verifiable ownership/economics.

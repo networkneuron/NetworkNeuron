@@ -1,300 +1,136 @@
-# NetworkNeuron  Creator-Owned Video on Shelby + Aptos
+<div align="center">
 
-> A decentralized streaming platform where creators keep ownership, control monetization and deliver high-performance video using Shelby Protocol.
+<picture>
+  <source srcset="assets/hero-banner.gif" type="image/gif">
+  <img src="assets/hero-banner.svg" alt="Network Neuron — creative animation studio" width="100%">
+</picture>
 
-NetworkNeuron is a censorship-resistant, creator-first video platform inspired by Vimeo, built on:
+### We turn complex ideas into video
 
-- **Shelby Protocol** for high-performance decentralized blob storage.
-- **Aptos** for coordination, settlement, payment logic, and correctness-critical state.
+2D animation, motion graphics, explainer videos and post-production — for brands, startups and agencies worldwide.
 
----
+[![Website](https://img.shields.io/badge/www.networkneuron.com-FF643D?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0A0A0A)](https://www.networkneuron.com)
+[![Showreel](https://img.shields.io/badge/Watch_the_showreel-1AB7EA?style=for-the-badge&logo=vimeo&logoColor=white&labelColor=0A0A0A)](https://vimeo.com/1156039926)
+[![Email](https://img.shields.io/badge/Start_a_project-0A0A0A?style=for-the-badge&logo=gmail&logoColor=FF643D&labelColor=0A0A0A)](mailto:networkneuronn@gmail.com)
 
-## Why This Stack
+[![Instagram](https://img.shields.io/badge/Instagram-0A0A0A?style=flat-square&logo=instagram&logoColor=E4405F)](https://instagram.com/NetworkNeuron)
+[![X](https://img.shields.io/badge/Twitter-0A0A0A?style=flat-square&logo=x&logoColor=white)](https://twitter.com/NetworkNeuron)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A0A0A?style=flat-square&logo=linkedin&logoColor=0A66C2)](https://linkedin.com/company/NetworkNeuron)
+[![Location](https://img.shields.io/badge/Based_in-Bangladesh-0A0A0A?style=flat-square&logo=googlemaps&logoColor=FF643D)](https://www.networkneuron.com/contact)
 
-Video streaming, AI and analytics workloads need:
+</div>
 
-- Robust storage durability.
-- High read throughput.
-- Predictable latency.
-- Transparent economics.
+<img src="assets/divider.svg" alt="" width="100%">
 
-Shelby is purpose-built for demanding read heavy workloads and aligns with NetworkNeuron’s requirements:
+## 🎬 What we do
 
-1. **Paid reads and user-focused incentives**
-   - Read payments incentivize providers to deliver quality service.
-2. **Aptos coordination + settlement layer**
-   - Smart contracts manage state, payments, and correctness-critical workflows.
-3. **Dedicated private bandwidth**
-   - Shelby RPC and storage providers communicate over private fiber for consistent performance.
-4. **Novel auditing system**
-   - Supports integrity guarantees and rewards honest participation.
-5. **Efficient erasure coding**
-   - Strong durability with better recovery bandwidth economics.
-6. **Built by experienced teams**
-   - High-performance systems background from Jump Trading Group + Aptos teams.
+<table>
+<tr valign="top">
+<td width="50%">
 
----
+### ✏️ 2D Animation
 
-## Product North Star
+Frame-by-frame character animation and vector storytelling — mascots, ad series, logo stings and motion illustration, handled from storyboard to final render.
 
-Build an open video ecosystem where creators can:
+</td>
+<td width="50%">
 
-1. Upload and stream high-quality video with decentralized persistence.
-2. Own content and rights via on-chain records.
-3. Monetize with subscriptions, tips, pay-per-view, and split payouts.
-4. Reach audiences without centralized platform lock-in.
+### 📊 Motion Graphics
 
----
+Kinetic typography, data and UI motion, brand systems and social cutdowns that make a message move without losing the message.
 
-## 🗺️ Working System Map
+</td>
+</tr>
+<tr valign="top">
+<td width="50%">
 
-```mermaid
-flowchart LR
-    User[Viewer / Creator Client SDK] -->|Public Internet| RPC[Shelby RPC Server]
-    User -.->|Wallet + Tx| Aptos[Aptos L1]
+### 💡 Explainer Videos
 
-    RPC -.->|State / settlement| Aptos
-    SP1[Storage Provider 1] -.-> Aptos
-    SP2[Storage Provider 2] -.-> Aptos
-    SPN[Storage Provider N] -.-> Aptos
+Clear, engaging video that simplifies a complex product and turns viewers into customers — script, storyboard, animation, voice and sound.
 
-    RPC -->|Private fiber network| PN[Private Network]
-    PN --> SP1
-    PN --> SP2
-    PN --> SPN
+</td>
+<td width="50%">
 
-    App[NetworkNeuron App/API] -->|Session/auth/playback| User
-    App -->|Index/query| IDX[Indexer]
-    IDX --> Aptos
-```
+### 🎞️ Video Editing
 
-### Key Shelby Components
+Post-production, colour, sound and delivery — including scroll-stopping cutdowns sized for Instagram, TikTok, YouTube and paid campaigns.
 
-1. **Aptos Smart Contract**
-   - Tracks system state and correctness-critical operations (including auditing-related flows).
-2. **Storage Provider (SP) Servers**
-   - Store chunk data and serve reads.
-3. **Shelby RPC Servers**
-   - Entry point for client SDK reads/writes; bridge public internet to private data path.
-4. **Private Network**
-   - High-performance connectivity between RPC servers and storage providers.
+</td>
+</tr>
+</table>
 
----
+<div align="center">
 
-## Accounts, Namespaces, and Blob Naming
+**[See the full service breakdown →](https://www.networkneuron.com/services)**
 
-Shelby organizes blobs in **user-specific namespaces**:
+</div>
 
-- Namespace is derived from the user’s Aptos account hex address.
-- Blob names are user-defined and must be unique within the namespace.
-- Blob names may be up to 1024 characters and must not end with `/`.
+<img src="assets/divider.svg" alt="" width="100%">
 
-Example fully-qualified blob:
+## ▶️ Showreel
 
-```text
-0x123.../videos/channel-a/episode-01.mp4
-```
+A live-action and 2D stickman explainer produced end to end — script, animation, edit and sound — showing how we turn a complex idea into video.
 
-There are no true directories—only blob names. This means both of the following can exist simultaneously:
+<div align="center">
 
-- `<account>/foo`
-- `<account>/foo/bar`
+[![Watch the Network Neuron showreel](https://img.shields.io/badge/▶_Play_the_showreel_on_Vimeo-1AB7EA?style=for-the-badge&logo=vimeo&logoColor=white&labelColor=0A0A0A)](https://vimeo.com/1156039926)
 
-For predictable recursive tooling behavior, use canonical path-like naming conventions.
+</div>
 
----
-
-## Data Model: Chunking + Erasure Coding
-
-Shelby stores data using erasure-coded chunksets:
-
-- Blobs are split into fixed-size **chunksets**.
-- Each chunkset is encoded into **16 chunks total**:
-  - 10 data chunks
-  - 6 parity chunks
-- Current conceptual sizing:
-  - 10 MB user-data chunkset
-  - 1 MB per chunk
+## 🧭 How a project runs
 
 ```mermaid
 flowchart LR
-    Blob[User Blob] --> CS0[Chunkset 0]
-    Blob --> CS1[Chunkset 1]
-    Blob --> CSN[Chunkset N]
+    A["📝 Script"] --> B["🎨 Storyboard"]
+    B --> C["🖌️ Design"]
+    C --> D["✨ Animation"]
+    D --> E["🔊 Sound &amp; Edit"]
+    E --> F["🚀 Delivery"]
 
-    CS0 -->|Erasure code| C0[Chunk 0]
-    CS0 --> C1[Chunk 1]
-    CS0 --> C15[Chunk 15]
+    classDef s fill:#0A0A0A,stroke:#FF643D,color:#ffffff
+    class A,B,C,D,E,F s
 ```
 
-Recovery properties:
+One team from first call to final master — no handing your project between vendors halfway through.
 
-- Any 10 of 16 chunks can reconstruct data.
-- Clay-code-based repair can reduce recovery traffic versus standard Reed-Solomon approaches.
+<img src="assets/divider.svg" alt="" width="100%">
 
----
+## 💻 On the engineering side
 
-## Placement Groups (PGs)
+We build and run our own platform rather than renting one. [networkneuron.com](https://www.networkneuron.com) is a single React application carrying the public studio site *and* the internal system we use to run the studio — clients, projects, deadlines, invoicing, payroll and campaigns — on Postgres with row-level security and edge functions.
 
-Shelby assigns each blob to a placement group to keep metadata efficient and improve operational scalability:
+<div align="center">
 
-- Each PG has **16 slots**, matching the 16-chunk coding layout.
-- All chunks for a blob are mapped to the same PG’s SP set.
-- This avoids storing per-chunk location metadata on-chain.
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white&labelColor=0A0A0A)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white&labelColor=0A0A0A)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white&labelColor=0A0A0A)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white&labelColor=0A0A0A)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white&labelColor=0A0A0A)
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white&labelColor=0A0A0A)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=flat-square&logo=greensock&logoColor=white&labelColor=0A0A0A)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white&labelColor=0A0A0A)
 
-```mermaid
-flowchart LR
-    BlobA[Blob A] -->|Random assignment| PG1[Placement Group 1]
-    BlobB[Blob B] -->|Random assignment| PG2[Placement Group 2]
+</div>
 
-    PG1 --> S0[SP Slot 0]
-    PG1 --> S1[SP Slot 1]
-    PG1 --> S15[SP Slot 15]
-```
+<img src="assets/divider.svg" alt="" width="100%">
 
----
+## 📬 Work with us
 
-## Read Procedure (Shelby-Aligned)
+Got a product that is hard to explain, a launch that needs motion, or footage that needs finishing? Tell us what you are making.
 
-1. Client SDK selects an available Shelby RPC server.
-2. Client establishes payment/session context.
-3. Client requests blob or byte range with payment authorization.
-4. RPC optionally serves from cache.
-5. RPC consults Aptos contract state for placement/provider mapping.
-6. RPC fetches required chunks from SPs over private network and pays via read payment mechanism.
-7. RPC validates chunks, reassembles response bytes, returns data.
-8. Session remains reusable for additional reads with incremental payments.
+<div align="center">
 
-```mermaid
-sequenceDiagram
-    participant U as User/SDK
-    participant R as Shelby RPC
-    participant C as Aptos Contract
-    participant S as Storage Providers
+| | |
+|---|---|
+| 🌐 **Site** | [www.networkneuron.com](https://www.networkneuron.com) |
+| ✉️ **Email** | [networkneuronn@gmail.com](mailto:networkneuronn@gmail.com) |
+| 💬 **Brief us** | [networkneuron.com/contact](https://www.networkneuron.com/contact) |
+| 📍 **Based in** | Bangladesh — working worldwide |
 
-    U->>R: Open read session + payment context
-    U->>R: Request blob/range
-    R->>C: Lookup placement/providers
-    C-->>R: Provider mapping
-    R->>S: Fetch chunks over private network
-    S-->>R: Chunks
-    R-->>U: Validated/reassembled bytes
-```
+<br>
 
----
+<img src="assets/divider.svg" alt="" width="100%">
 
-## Write Procedure (Shelby-Aligned)
+**Network Neuron** · 2D Animation · Motion Graphics · Explainer Video · Editing
 
-1. Client selects Shelby RPC server.
-2. SDK computes erasure-coding/chunk commitments locally.
-3. SDK submits Aptos transaction with blob metadata + commitment root; storage payment handled on-chain.
-4. SDK sends source data to RPC.
-5. RPC recomputes/validates coded representation against on-chain metadata.
-6. RPC distributes chunks to assigned SPs by placement group.
-7. SPs validate chunks and return signed acknowledgments.
-8. RPC aggregates acknowledgments and submits confirmation transaction.
-9. Contract marks blob as written/durable.
-
-```mermaid
-sequenceDiagram
-    participant U as User/SDK
-    participant R as Shelby RPC
-    participant A as Aptos
-    participant S as Storage Providers
-
-    U->>A: Submit blob metadata + commitments
-    A-->>U: Tx confirmed
-    U->>R: Send source blob
-    R->>A: Validate metadata consistency
-    R->>S: Send coded chunks
-    S-->>R: Signed acknowledgments
-    R->>A: Submit aggregate confirmation
-    A-->>R: Blob state = written
-```
-
----
-
-## NetworkNeuron Application Architecture
-
-### Client Layer
-
-- Web/mobile clients for upload, playback, discovery, and creator dashboard.
-- Aptos wallet auth and transaction signing.
-- SDK-driven reads/writes through Shelby RPC endpoints.
-
-### Contract Layer (Aptos)
-
-- **CreatorRegistry**: creator/channel identity metadata.
-- **VideoRegistry**: ownership, rights, Shelby blob references, publish state.
-- **MonetizationManager**: subscriptions, PPV, tips, entitlement checks.
-- **RevenueSplitter**: programmable payouts for collaborators/partners.
-
-### Index & Discovery Layer
-
-- Indexer reads Aptos events and app metadata.
-- Search/discovery APIs power feeds, channel pages, and analytics.
-
-### Delivery Layer
-
-- Shelby RPC path for durable source-of-truth retrieval.
-- Optional cache/gateway layer for startup latency improvements.
-
----
-
-## Monetization
-
-- **Subscriptions**
-- **Pay-per-view**
-- **Direct tips**
-- **Token-gated access**
-- **Revenue splits**
-
-Design principle: creator earnings should be transparent, auditable, and programmable.
-
----
-
-## MVP Scope
-
-### In Scope
-
-- Aptos wallet login and creator profile.
-- Video upload pipeline with Shelby persistence.
-- On-chain `VideoRegistry` records pointing to Shelby blobs.
-- Playback path via Shelby RPC.
-- Tip transactions and receipt visibility.
-
-### Out of Scope (MVP)
-
-- Full governance DAO.
-- Advanced recommendation ML ranking.
-- Multi-chain interoperability.
-
----
-
-## Success Metrics
-
-- Creator activation rate.
-- On-chain payout volume and creator take-rate.
-- Stream startup time and buffering ratio.
-- Shelby retrieval success/SLO adherence.
-- % of videos with complete ownership + rights metadata.
-
----
-
-## 30-Day Implementation Map
-
-1. Finalize Aptos Move contract interfaces and event schema.
-2. Define Shelby blob naming convention and metadata mapping format.
-3. Implement upload → write-confirmation flow (including on-chain state transitions).
-4. Implement playback read-session flow with usage metering.
-5. Ship creator dashboard with earnings + storage/read health telemetry.
-6. Run load tests on read-heavy playback scenarios.
-
----
-
-## Long-Term Vision
-
-NetworkNeuron becomes an open creator-owned media protocol where multiple apps can compete on UX while sharing a common trust layer:
-
-- Shelby for scalable, performant decentralized storage.
-- Aptos for settlement, incentives, and verifiable ownership/economics.
+</div>

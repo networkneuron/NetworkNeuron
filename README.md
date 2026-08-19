@@ -77,6 +77,44 @@ A live-action and 2D stickman explainer produced end to end — script, animatio
 
 </div>
 
+<img src="assets/divider.svg" alt="" width="100%">
+
+## 👋 Meet the founder
+
+<table>
+<tr>
+<td width="220" align="center" valign="top">
+
+<img src="https://avatars.githubusercontent.com/u/197028114?v=4" width="170" alt="Tanvir Ahmed Abir">
+
+**Tanvir Ahmed Abir**
+
+<sub>Founder · Motion Graphics & 2D Animation</sub>
+
+</td>
+<td valign="top">
+
+Tanvir is a 19-year-old motion graphics expert and 2D animator from Bangladesh, and the founder of Network Neuron. He is a student, and he spends the rest of his time doing what he would be doing anyway — creating and editing video, and bringing stories to life through his work.
+
+Outside the studio, travelling is one of his biggest passions. He loves exploring new places and experiencing different cultures, and that curiosity has a way of finding its way back into the work.
+
+<br>
+
+![Motion Graphics](https://img.shields.io/badge/Motion_Graphics-FF643D?style=flat-square&labelColor=0A0A0A)
+![2D Animation](https://img.shields.io/badge/2D_Animation-FF643D?style=flat-square&labelColor=0A0A0A)
+![Video Editing](https://img.shields.io/badge/Video_Editing-FF643D?style=flat-square&labelColor=0A0A0A)
+<br>
+![Student](https://img.shields.io/badge/Student-0A0A0A?style=flat-square&labelColor=0A0A0A)
+![19 years old](https://img.shields.io/badge/19_years_old-0A0A0A?style=flat-square&labelColor=0A0A0A)
+![Bangladesh](https://img.shields.io/badge/Bangladesh-0A0A0A?style=flat-square&labelColor=0A0A0A)
+![Traveling](https://img.shields.io/badge/Traveling-0A0A0A?style=flat-square&labelColor=0A0A0A)
+
+</td>
+</tr>
+</table>
+
+<img src="assets/divider.svg" alt="" width="100%">
+
 ## 🧭 How a project runs
 
 ```mermaid
